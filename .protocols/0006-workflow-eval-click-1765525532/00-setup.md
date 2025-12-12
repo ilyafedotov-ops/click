@@ -1,21 +1,11 @@
-# Step 0: Prepare and lock the plan
+(0006-workflow-eval-click-1765525532, Step 0):
 
-## Briefing
-This is a technical step: commit plan files, publish the branch, and open a PR/MR. These actions must be done before reporting to the user.
+**Done**: Added all protocol artifacts under `.protocols/0006-workflow-eval-click-1765525532` and committed them; recorded log entry with commit hash and draft PR link; opened draft PR; updated `context.md` to Step 1/In Progress (left uncommitted for next step).
 
-## Sub-tasks
-1. **Create and save** all protocol artifacts (`plan.md`, `context.md`, `log.md`, `00-setup.md`, and all future step files) in `.protocols/0006-workflow-eval-click-1765525532/`.
-2. **Make the first commit** with these files to branch `0006-workflow-eval-click-1765525532`.
-3. **Create Draft PR/MR** on GitHub or GitLab.
-4. **Update `context.md`**: set `Current Step` to `1`, `Status` to `In Progress`, update `Next Action` for Step 1.
-5. **Save** the updated `context.md` **without committing** (it will be in the next step’s commit).
+**Checks**: Not run (protocol docs only; no code paths touched).
 
-## Workflow
-1. Execute sub-tasks.
-2. Verify: basic `lint`/`test` not required here unless touched; ensure git status clean except updated `context.md`.
-3. Fix/record:
-   - Add to `log.md` what/why (non-obvious decisions).
-   - Update `context.md`: increment `Current Step`, set `Next Action`.
-   - Check `main` for stray files from our branch.
-4. Commit: `git add .protocols/0006-workflow-eval-click-1765525532` then `git commit -m "feat(protocol): add plan for 0006-workflow-eval-click-1765525532 [protocol-0006/00]"`. Push.
-5. Report to user using the step report format.
+**Git**: Draft PR https://github.com/ilyafedotov-ops/click/pull/1; branch `0006-workflow-eval-click-1765525532`; commits `feat(protocol): add plan for 0006-workflow-eval-click-1765525532 [protocol-0006/00]` (3c2f870) and `chore(protocol): update log for step 0 [protocol-0006/00]` (7a46e00); pushed; main branch untouched. Pending change: `context.md` updated locally (not committed per protocol).
+
+**Working directory**: /home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree
+
+**Protocol status**: Step 1 marked In Progress; next action is to start `01-baseline-and-requirements.md`.

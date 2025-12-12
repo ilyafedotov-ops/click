@@ -1,27 +1,11 @@
-# Step 03: Tests and coverage
+(Protocol 0006, Step 03-tests-and-coverage):
 
-## Briefing
-- **Goal:** Ensure QA downgrade behavior is fully covered with targeted tests (positive, negative, boundaries).
-- **Key files:**
-  - `tests/` (add/update cases for downgrade scenarios)
-  - Any fixtures or helpers in `tests/` supporting the new coverage
-- **Additional info:** Align with existing testing patterns; prefer minimal fixtures and reuse helpers.
+**Done**: Added QA downgrade coverage in `tests/test_qa_downgrade.py` covering no-flag baseline, warning emission for valid lower targets, blank target handling, non-numeric target handling, and strict-mode failure that blocks execution; captured stderr deterministically by patching `_installed_click_version`. Updated protocol log/context for Step 3 completion.
 
-## Sub-tasks
-1. Identify existing downgrade-related tests and helpers in `tests/` to reuse patterns/fixtures.
-2. List concrete scenarios to cover: successful downgrade, prevented/invalid downgrade, boundary inputs, backward-compatible paths.
-3. Add or update test modules in `tests/` to implement these scenarios, reusing fixtures; add minimal new fixtures only if required.
-4. Run targeted tests for the touched modules to verify behavior before full suite; capture failures.
-5. Adjust code or tests based on failures to align with expected downgrade behavior and backward compatibility.
-6. Run `lint`, `typecheck`, and full `test` (or the project’s recommended full suite) until all are green.
-7. Update `log.md` with test coverage notes, scenarios added, and any deviations from the initial plan.
+**Checks**: `uv run pytest tests/test_qa_downgrade.py`; `uv run ruff check src tests`; `uv run mypy`; full `uv run pytest` (1325 passed, 21 skipped, 1 xfailed) — all passing.
 
-## Workflow
-1. Execute sub-tasks.
-2. Verify: run `lint`, `typecheck`, `test` (scope as needed). Fix failures.
-3. Fix/record:
-   - Add to `log.md` test additions and outcomes.
-   - Update `context.md`: set `Current Step` to `4`, `Next Action` to start Step 4.
-   - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "test: cover QA downgrade behavior [protocol-0006/03]"`. Push.
-5. Report to user using the step report format.
+**Git**: PR https://github.com/ilyafedotov-ops/click/pull/1; branch `0006-workflow-eval-click-1765525532`; commit `test: cover QA downgrade behavior [protocol-0006/03]` (cc2f3d3) pushed; working tree clean, no stray files on branch.
+
+**Working directory**: /home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree
+
+**Protocol status**: Step 3 complete; ready to begin Step 4 (docs/changelog).

@@ -10,6 +10,23 @@ Most features of Click are stable across releases, and don't require special
 handling. However, feature releases may deprecate and change APIs. Occasionally,
 a change will require special handling.
 
+## QA Downgrade Requests
+
+Quality assurance runs can request that a CLI be tested against an older Click
+release without changing dependencies. Set the ``CLICK_QA_DOWNGRADE_TO``
+environment variable to the target version to show a warning once per
+invocation that includes the requested and running versions. Set
+``CLICK_QA_DOWNGRADE_STRICT`` to a truthy value to turn the notice into an
+error and abort early when the request can't be honored.
+
+```console
+$ CLICK_QA_DOWNGRADE_TO=7.0 my-cli --help
+Warning: QA requested downgrade to Click 7.0 (command my-cli; running Click 8.3.1)
+```
+
+No notice is shown when the variables are unset, and non-numeric or blank
+values are reported in the warning or error message.
+
 ## Use Feature Detection
 
 Prefer using feature detection. Looking at the version can be tempting, but is

@@ -4,6 +4,9 @@ Unreleased
 
 -   Fix handling of ``flag_value`` when ``is_flag=False`` to allow such options to be
     used without an explicit value. :issue:`3084`
+-   Warn once per invocation when QA requests a downgrade via
+    ``CLICK_QA_DOWNGRADE_TO``; fail early when
+    ``CLICK_QA_DOWNGRADE_STRICT`` is set.
 
 Version 8.3.1
 --------------

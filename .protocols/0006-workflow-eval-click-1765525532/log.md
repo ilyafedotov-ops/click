@@ -13,3 +13,6 @@ This is an append-only log:
 - 2025-12-12 08:11:51 UTC - 02-implement-qa-downgrade.md executed via Codex (gpt-5.1-codex-max); QA pending.
 - 2025-12-12 08:12:03 UTC - 02-implement-qa-downgrade.md QA PASS (gpt-5.1-codex-max).
 - 2025-12-12 08:17:55 UTC - Added QA downgrade coverage in new `tests/test_qa_downgrade.py` covering: baseline (no env flags), warning emission for lower-version requests, blank target handling, non-numeric targets, and strict mode failure that blocks execution while capturing stderr details deterministically via patched `_installed_click_version`. Ran `uv run pytest tests/test_qa_downgrade.py`, `uv run ruff check src tests`, `uv run mypy`, and full `uv run pytest` (1325 passed, 21 skipped, 1 xfailed). Commit planned: `test: cover QA downgrade behavior [protocol-0006/03]`.
+- 2025-12-12 08:18:51 UTC - 03-tests-and-coverage.md executed via Codex (gpt-5.1-codex-max); QA pending.
+- 2025-12-12 08:19:13 UTC - 03-tests-and-coverage.md QA PASS (gpt-5.1-codex-max).
+- 2025-12-12 08:21:43 UTC - Documented QA downgrade env vars in `docs/support-multiple-versions.md` (warning/strict behavior with example) and added an Unreleased changelog entry in `CHANGES.rst`. Verified with `uv run ruff check src tests`, `uv run mypy`, and `uv run pytest` (all green). Commit planned: `docs: document QA downgrade behavior [protocol-0006/04]`.

@@ -25,16 +25,13 @@ def test_warns_with_requested_downgrade(runner, monkeypatch):
     def cli():
         click.echo("ok")
 
-    result = runner.invoke(
-        cli, env={"CLICK_QA_DOWNGRADE_TO": "7.0"}, prog_name="cli"
-    )
+    result = runner.invoke(cli, env={"CLICK_QA_DOWNGRADE_TO": "7.0"}, prog_name="cli")
 
     assert result.exit_code == 0
     assert result.stdout == "ok\n"
     assert (
         "Warning: QA requested downgrade to Click 7.0"
-        " (command cli; running Click 8.2.0)\n"
-        == result.stderr
+        " (command cli; running Click 8.2.0)\n" == result.stderr
     )
 
 
@@ -43,16 +40,13 @@ def test_warns_on_blank_requested_version(runner, monkeypatch):
     def cli():
         click.echo("ok")
 
-    result = runner.invoke(
-        cli, env={"CLICK_QA_DOWNGRADE_TO": "   "}, prog_name="cli"
-    )
+    result = runner.invoke(cli, env={"CLICK_QA_DOWNGRADE_TO": "   "}, prog_name="cli")
 
     assert result.exit_code == 0
     assert result.stdout == "ok\n"
     assert (
         "Warning: QA downgrade requested via CLICK_QA_DOWNGRADE_TO but no target was"
-        " provided.\n"
-        == result.stderr
+        " provided.\n" == result.stderr
     )
 
 

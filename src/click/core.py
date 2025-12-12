@@ -140,6 +140,94 @@ def iter_params_for_processing(
     return sorted(declaration_order, key=sort_key)
 
 
+def _env_flag_is_set(value: str | None) -> bool:
+    if value is None:
+        return False
+
+    return value.strip().lower() not in {"", "0", "false", "no", "off"}
+
+
+def _parse_version(value: str) -> tuple[int, ...] | None:
+    value = value.strip()
+
+    if not value:
+        return None
+
+    parts = value.split(".")
+    parsed: list[int] = []
+
+    for part in parts:
+        if not part.isdigit():
+            return None
+
+        parsed.append(int(part))
+
+    return tuple(parsed)
+
+
+def _installed_click_version() -> str | None:
+    import importlib.metadata
+
+    try:
+        return importlib.metadata.version("click")
+    except importlib.metadata.PackageNotFoundError:
+        return None
+    except Exception:
+        return None
+
+
+def _handle_qa_downgrade_notice(prog_name: str | None) -> None:
+    requested = os.environ.get("CLICK_QA_DOWNGRADE_TO")
+    strict = _env_flag_is_set(os.environ.get("CLICK_QA_DOWNGRADE_STRICT"))
+
+    if requested is None:
+        return
+
+    target = requested.strip()
+
+    if not target:
+        message = _(
+            "QA downgrade requested via CLICK_QA_DOWNGRADE_TO but no target was"
+            " provided."
+        )
+
+        if strict:
+            raise ClickException(message)
+
+        echo(_("Warning: %(message)s") % {"message": message}, err=True)
+        return
+
+    current_version = _installed_click_version()
+    normalized_target = _parse_version(target)
+    normalized_current = (
+        _parse_version(current_version) if current_version is not None else None
+    )
+
+    message = _("QA requested downgrade to Click %(target)s") % {"target": target}
+    details: list[str] = []
+
+    if prog_name:
+        details.append(_("command %(prog)s") % {"prog": prog_name})
+
+    if current_version is None:
+        details.append(_("running version unknown"))
+    else:
+        details.append(_("running Click %(version)s") % {"version": current_version})
+
+    if normalized_target is None:
+        details.append(_("requested version is not numeric"))
+    elif normalized_current is not None and normalized_target >= normalized_current:
+        details.append(_("requested version is not lower than the installed version"))
+
+    if details:
+        message = f"{message} ({'; '.join(details)})"
+
+    if strict:
+        raise ClickException(message)
+
+    echo(_("Warning: %(message)s") % {"message": message}, err=True)
+
+
 class ParameterSource(enum.Enum):
     """This is an :class:`~enum.Enum` that indicates the source of a
     parameter's value.
@@ -1402,6 +1490,8 @@ class Command:
 
         try:
             try:
+                _handle_qa_downgrade_notice(prog_name)
+
                 with self.make_context(prog_name, args, **extra) as ctx:
                     rv = self.invoke(ctx)
                     if not standalone_mode:

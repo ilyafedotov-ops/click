@@ -1,37 +1,11 @@
-# Step 01: Baseline and requirements
+(Protocol 0006-workflow-eval-click-1765525532, step 1):
 
-## Briefing
-- **Goal:** Understand existing QA downgrade behavior, requirements, and affected surfaces before coding.
-- **Key files:**
-  - `src/` (core Click modules handling QA/version/downgrade logic)
-  - `tests/` (existing downgrade/compatibility coverage)
-  - `.github/` (CI signals for required checks)
-- **Additional info:** Capture assumptions and open questions in `log.md`.
+**Done**: Reviewed baseline for QA/downgrade behavior—no existing downgrade hooks found in `src/click/core.py`, `src/click/decorators.py`, or `src/click/shell_completion.py` beyond Bash version warnings. Surveyed tests (`tests/test_shell_completion.py`, `tests/typing/typing_version_option.py`) and confirmed no downgrade coverage. Captured CI expectations from `.github/workflows/tests.yaml` and `pre-commit.yaml`. Logged requirements/assumptions: introduce opt-in env flag `CLICK_QA_DOWNGRADE_TO` (warn by default, optional strict failure), keep defaults no-op, avoid new deps, preserve current CLI UX; planned scenarios for later tests; recorded gaps and open questions in `.protocols/0006-workflow-eval-click-1765525532/log.md` and advanced context for Step 2.
 
-## Sub-tasks
-1. Inventory current QA downgrade logic:
-   - Locate candidate modules under `src/click/` (e.g., command resolution, version checks, downgrade guards).
-   - Map entry points and data flow for downgrade decisions; note defaults and config/env flags.
-   - Capture current behavior (what triggers downgrade, what is blocked/warned).
-2. Review existing tests covering downgrade/version/QA behavior under `tests/`:
-   - Identify suites/files that exercise downgrade logic, version compatibility, or QA handling.
-   - Summarize covered scenarios; note missing cases relevant to upcoming change.
-3. Extract requirements for the downgrade change:
-   - From task description and observed behavior, list required inputs, expected outputs, and decision rules.
-   - Enumerate edge cases (e.g., mismatched versions, absent QA data, forced downgrade flags).
-4. Identify invariants and compatibility constraints to preserve:
-   - Note behaviors that must not change (CLI UX, error shapes, warnings).
-   - Record any public API or backward-compatibility expectations.
-5. Update artifacts:
-   - Add findings, assumptions, gaps, and planned test coverage to `log.md`.
-   - Draft any open questions to resolve before implementation.
+**Checks**: Not run (analysis/log-only step; no code changes).
 
-## Workflow
-1. Execute sub-tasks.
-2. Verify: no code changes required; if tooling is run, ensure it stays green.
-3. Fix/record:
-   - Add findings to `log.md` (requirements, assumptions, gaps).
-   - Update `context.md`: set `Current Step` to `2`, `Next Action` to start Step 2.
-   - Check `main` for stray files from our branch.
-4. Commit: include logs/context updates if appropriate (`git commit -m "chore(protocol): record baseline for QA downgrade [protocol-0006/01]"`). Push.
-5. Report to user using the step report format.
+**Git**: PR https://github.com/ilyafedotov-ops/click/pull/1; branch `0006-workflow-eval-click-1765525532`; commit `d847bac` (“chore(protocol): record baseline for QA downgrade [protocol-0006/01]”); pushed; working tree clean (no stray files).
+
+**Working directory**: `/home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree`
+
+**Protocol status**: Step 1 complete; ready to start Step 2 (implement QA downgrade handling).

@@ -16,3 +16,6 @@ This is an append-only log:
 - 2025-12-12 08:18:51 UTC - 03-tests-and-coverage.md executed via Codex (gpt-5.1-codex-max); QA pending.
 - 2025-12-12 08:19:13 UTC - 03-tests-and-coverage.md QA PASS (gpt-5.1-codex-max).
 - 2025-12-12 08:21:43 UTC - Documented QA downgrade env vars in `docs/support-multiple-versions.md` (warning/strict behavior with example) and added an Unreleased changelog entry in `CHANGES.rst`. Verified with `uv run ruff check src tests`, `uv run mypy`, and `uv run pytest` (all green). Commit planned: `docs: document QA downgrade behavior [protocol-0006/04]`.
+- 2025-12-12 08:23:06 UTC - 04-docs-and-changelog.md executed via Codex (gpt-5.1-codex-max); QA pending.
+- 2025-12-12 08:24:07 UTC - 04-docs-and-changelog.md QA PASS (gpt-5.1-codex-max).
+- 2025-12-12 08:31:37 UTC - Step 5 finalize: refreshed PR description with summary/testing/protocol links and marked ready for review; ran `python3 -m compileall src tests` (initial `python` alias missing), `uv run tox -e style` (ruff format adjusted `tests/test_qa_downgrade.py`), `uv run tox -e typing`, and `uv run tox -e py3.12` (all green). Recorded commit 7a21145b0ea08e97ca5e5b749cde33e0f27ddd46; remaining risks: none noted.

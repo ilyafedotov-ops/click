@@ -1,29 +1,11 @@
-# Step 05: Finalize
+(Protocol 0006, step 05-finalize):
 
-## Briefing
-- **Goal:** Wrap up the work, ensure PR is ready, and close protocol artifacts.
-- **Key files:**
-  - `.protocols/0006-workflow-eval-click-1765525532/context.md`
-  - `.protocols/0006-workflow-eval-click-1765525532/log.md`
-  - PR description/metadata
-- **Additional info:** Ensure all previous steps are committed and pushed.
+**Done**: PR description retitled and filled with summary/testing/protocol links, marked Ready for Review; ran compileall/tox suite (fixed missing `python` alias and ruff-format adjustment in `tests/test_qa_downgrade.py`), updated log/context to Step 5 “Done” with commit/reference details.
 
-## Sub-tasks
-1. Open PR diff and description; verify summary, testing notes, and link to protocol are present. Mark PR status to Ready for Review.
-2. Run `python -m compileall src tests` (if applicable), `tox -e lint`, `tox -e typecheck`, and `tox -e py` (or the project’s standard `lint/typecheck/test` commands). Capture pass/fail and any reruns needed.
-3. If any checks fail, fix issues, rerun until green, and keep notes for `log.md`.
-4. Update `.protocols/0006-workflow-eval-click-1765525532/context.md`: set `Status` to `Done`, `Current Step` to `5`, `Next Action` to "Await review/merge", and refresh any metadata (branch, PR link).
-5. Add final entry to `.protocols/0006-workflow-eval-click-1765525532/log.md`: include commit hash, summary of work completed, checks run with results, and remaining risks (if any).
-6. Verify cleanliness: `git status` should be clean; add/commit any remaining tracked changes with `git add` then `git commit -m "chore: finalize QA downgrade protocol [protocol-0006/05]"` if needed. Push branch to remote.
-7. Confirm main branch hygiene: ensure no stray files from feature branch exist on `main` (e.g., `git checkout main && git status` or compare clean state), then return to worktree branch.
-8. Prepare final user report in the required format with paths and command results.
+**Checks**: `python3 -m compileall src tests` (pass; initial `python` alias missing), `uv run tox -e style` (first run reformatted test, re-run pass), `uv run tox -e typing` (pass), `uv run tox -e py3.12` (1325 passed, 21 skipped, 1 xfailed).
 
-## Workflow
-1. Execute the sub-tasks in order, resolving any test/lint/typecheck failures immediately.
-2. Verify all final checks (`lint`, `typecheck`, `test`) pass and PR metadata is complete.
-3. Fix/record:
-   - Log all outcomes in `log.md`.
-   - Update `context.md` to reflect completion and waiting status.
-   - Ensure `main` is clean of branch artifacts.
-4. Commit/push as needed: `git add .` then `git commit -m "chore: finalize QA downgrade protocol [protocol-0006/05]"` (if new changes), followed by `git push`.
-5. Report to user using the step report format and confirm readiness for review/merge.
+**Git**: PR https://github.com/ilyafedotov-ops/click/pull/1 (ready); branch `0006-workflow-eval-click-1765525532`; latest commits `chore(protocol): sync context status [protocol-0006/05]`, `chore: finalize QA downgrade protocol [protocol-0006/05]`, `chore(tests): format QA downgrade cases [protocol-0006/05]`; pushed. Main worktree `/home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click` shows existing untracked infra files, unchanged.
+
+**Working directory**: /home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree
+
+**Protocol status**: Step 5 complete; awaiting review/merge.

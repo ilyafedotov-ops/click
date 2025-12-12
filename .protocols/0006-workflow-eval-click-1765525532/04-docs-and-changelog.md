@@ -1,41 +1,11 @@
-# Step 04: Docs and changelog
+(Protocol 0006-workflow-eval-click-1765525532, step 04-docs-and-changelog.md):
 
-## Briefing
-- **Goal:** Document the QA downgrade change appropriately (user-facing docs and changelog if required).
-- **Key files:**
-  - `docs/` or `README.rst/md` as applicable
-  - `CHANGES.rst` or similar changelog file
-- **Additional info:** Keep documentation concise and aligned with project style.
+**Done**: Added a “QA Downgrade Requests” section to `docs/support-multiple-versions.md` describing `CLICK_QA_DOWNGRADE_TO` / `CLICK_QA_DOWNGRADE_STRICT`, warning/strict behavior, and a console example; added an Unreleased changelog note in `CHANGES.rst`; updated protocol bookkeeping (`context.md`, `log.md`, `quality-report.md`) for step handoff to 05-finalize.
 
-## Sub-tasks
-1. Locate documentation entry points:
-   - Identify where QA-related behavior is documented (e.g., `docs/`, `README.rst/md`).
-   - Note style/structure used for similar feature notes.
-2. Describe QA downgrade behavior:
-   - Draft concise explanation of the new behavior, flags/options, and expected outcomes.
-   - Add usage/example snippet if patterns exist nearby; match existing formatting.
-3. Update documentation files:
-   - Insert the drafted content into the appropriate doc sections with consistent headings/links.
-   - Cross-check for anchor consistency and table of contents updates if needed.
-4. Add changelog entry:
-   - Open `CHANGES.rst` (or equivalent) and add a brief entry under the correct version/unreleased section.
-   - Include compatibility notes or migration guidance if applicable.
-5. Proof and align style:
-   - Read updated docs/changelog for clarity, tense, and voice.
-   - Ensure terminology matches existing docs conventions.
-6. Validate and guard regressions:
-   - Run doc-related lint/build if the project provides commands; otherwise run `lint`/`test` to ensure no regressions.
-   - Address any issues uncovered.
-7. Record protocol artifacts:
-   - Update `log.md` with what changed and why (reference commit hash when available).
-   - Ensure `context.md` will reflect step completion in Workflow updates.
+**Checks**: `uv run ruff check src tests`; `uv run mypy`; `uv run pytest` (1325 passed, 21 skipped, 1 xfailed) — all pass.
 
-## Workflow
-1. Execute sub-tasks in order above.
-2. Verify: run any required doc lint/build if present; otherwise ensure existing `lint`/`test` still pass.
-3. Fix/record:
-   - Add to `log.md` doc updates and rationale.
-   - Update `context.md`: set `Current Step` to `5`, `Next Action` to start Step 5.
-   - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "docs: document QA downgrade behavior [protocol-0006/04]"`. Push.
-5. Report to user using the step report format.
+**Git**: PR https://github.com/ilyafedotov-ops/click/pull/1; branch `0006-workflow-eval-click-1765525532`; committed `docs: document QA downgrade behavior [protocol-0006/04]` (397350626ec6949b536a508380b968ea2f009032); pushed; working tree clean (no stray files on main).
+
+**Working directory**: /home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree
+
+**Protocol status**: Current Step set to 5 (05-finalize.md); next action is to begin Step 5 per plan.

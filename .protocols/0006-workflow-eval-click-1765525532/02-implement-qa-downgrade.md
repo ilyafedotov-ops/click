@@ -1,28 +1,18 @@
-# Step 02: Implement QA downgrade handling
+(Protocol 0006, step 02-implement-qa-downgrade.md):
 
-## Briefing
-- **Goal:** Apply code changes to implement the required QA downgrade behavior while keeping compatibility.
-- **Key files:**
-  - `src/` modules implementing downgrade logic
-  - Supporting utilities or configuration files if needed
-- **Additional info:** Keep changes minimal and well-documented in code comments only where necessary.
+**Done**:
+- Added `_handle_qa_downgrade_notice` in `src/click/core.py` to honor `CLICK_QA_DOWNGRADE_TO`, warn once per invocation or raise when `CLICK_QA_DOWNGRADE_STRICT` is truthy, and sanity-check requested targets against the installed Click version without new deps.
+- Hooked the notice into `Command.main` after completion handling; updated protocol `log.md`, `context.md`, and captured the QA quality report artifact.
 
-## Sub-tasks
-1. Re-read Step 1 notes to confirm expected downgrade behavior, inputs/outputs, default behavior, and negative cases to cover.
-2. Locate the existing downgrade-related paths in `src/` (core logic plus any call sites) and decide insertion points for the new handling.
-3. Implement the QA downgrade logic: apply the new conditions/branches, ensure correct outputs and fallbacks, and preserve existing defaults/compatibility.
-4. Harden edge cases: validate inputs/metadata, enforce version bounds, and ensure error signaling matches requirements without changing public surface unintentionally.
-5. Add or adjust configuration/flags needed to control downgrade behavior while keeping current defaults unchanged; update any wiring to propagate the flag.
-6. Update concise inline docstrings/comments only where the new flow is non-obvious to future readers.
-7. Run focused checks for touched areas (lint/typecheck/targeted tests) to catch immediate regressions.
-8. Self-review diffs for correctness, minimal surface area, and alignment with requirements before proceeding.
+**Checks**:
+- `uv run ruff check src tests` (pass).
+- `uv run mypy` (pass).
+- `uv run pytest tests/test_basic.py -k basic` (pass; earlier attempt against missing `tests/test_core.py` reported no tests).
 
-## Workflow
-1. Execute sub-tasks.
-2. Verify: run `lint`, `typecheck`, and focused `test` if applicable to ensure no immediate regressions.
-3. Fix/record:
-   - Add to `log.md` a summary of code changes and rationale.
-   - Update `context.md`: set `Current Step` to `3`, `Next Action` to start Step 3.
-   - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "feat: implement QA downgrade handling [protocol-0006/02]"`. Push.
-5. Report to user using the step report format.
+**Git**:
+- PR https://github.com/ilyafedotov-ops/click/pull/1, branch `0006-workflow-eval-click-1765525532`.
+- Commit `feat: implement QA downgrade handling [protocol-0006/02]` (150e95e) pushed; working tree clean with no stray files.
+
+**Working directory**: `/home/ilya/Documents/dev-pipeline/projects/github.com/pallets/click/worktrees/tasksgodzilla-worktree`
+
+**Protocol status**: Step 2 complete; next begin Step 3 (add downgrade coverage).

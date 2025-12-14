@@ -1,11 +1,11 @@
 # 0001 — click-opencode
 
 ## ADR-style Summary:
-- **Context**: Need to create comprehensive end-to-end CLI tests for the Click library using opencode with glm-4.6 model
-- **Problem Statement**: Current test coverage may not adequately test CLI functionality from a user perspective; need automated CLI testing that mimics real user interactions
-- **Decision**: Implement E2E CLI tests using opencode framework with glm-4.6 model to test Click's command-line interface comprehensively
-- **Alternatives**: Manual CLI testing, unit tests only, other automation frameworks
-- **Consequences**: Increased test coverage, better CLI reliability, additional test maintenance overhead
+- **Context**: Need to create end-to-end CLI tests for the click repository using opencode glm-4.6
+- **Problem Statement**: No comprehensive E2E CLI testing exists for click's command-line interface functionality
+- **Decision**: Implement comprehensive CLI tests using opencode framework with glm-4.6 model
+- **Alternatives**: Manual testing, other testing frameworks, limited unit tests
+- **Consequences**: Improved test coverage, automated CLI validation, better CI/CD integration
 
 ---
 
@@ -13,11 +13,11 @@
 This section is a **contract**; do not change during implementation.
 
 - **[Step 0: Prepare and lock plan](./00-setup.md)**: Create and commit protocol artifacts.
-- **[Step 1: Analyze CLI architecture](./01-analyze-cli.md)**: Document Click's CLI structure and identify test scenarios.
-- **[Step 2: Design test framework](./02-design-tests.md)**: Create opencode integration test structure.
-- **[Step 3: Implement core tests](./03-implement-core.md)**: Build basic CLI functionality tests.
-- **[Step 4: Advanced scenarios](./04-advanced-scenarios.md)**: Add complex CLI interaction tests.
-- **[Step 5: Opencode integration](./05-opencode-integration.md)**: Integrate with glm-4.6 model for intelligent testing.
+- **[Step 1: Analyze CLI architecture](./01-analyze-cli.md)**: Examine src/click/core.py, src/click/decorators.py, and existing CLI patterns.
+- **[Step 2: Design test framework](./02-design-tests.md)**: Create opencode integration structure and test patterns.
+- **[Step 3: Implement core tests](./03-implement-core.md)**: Build basic CLI command tests using examples/ and src/click/ modules.
+- **[Step 4: Advanced scenarios](./04-advanced-scenarios.md)**: Test complex CLI interactions, error handling, and edge cases.
+- **[Step 5: Opencode integration](./05-opencode-integration.md)**: Integrate with glm-4.6 and configure CI pipeline.
 - **[Step 6: Finalize](./06-finalize.md)**:
   * Mark PR Ready
   * Close out work
@@ -44,7 +44,7 @@ All work happens in the worktree (CWD).
 3. Follow Generic Principles below.
 
 ### C. After the step (verify & fix)
-1. Run checks: `typecheck`, `lint`, `test`. Fix until green.
+1. Run checks: `uv run --locked pytest -q`, `uv run --locked tox run -e style`, `uv run --locked tox run -e typing`. Fix until green.
 2. Add a `log.md` entry describing what and why (include commit ID).
 3. Rewrite `context.md` for the next step.
 4. Verify `main` has no stray files from our branch. Commit with `type(scope): subject [protocol-0001/YY]`. Push.
@@ -77,6 +77,6 @@ All work happens in the worktree (CWD).
 
 ## Reference Materials
 - Click documentation: docs/
-- Existing tests: tests/
-- Examples: examples/
-- pytest configuration: pyproject.toml
+- Test examples: tests/test_basic.py, tests/test_commands.py
+- CLI examples: examples/aliases/aliases.py, examples/complex/complex/cli.py
+- CI workflows: .github/workflows/tests.yaml

@@ -1,69 +1,42 @@
 # Step 3: Implement core tests
 
 ## Briefing
-- **Goal:** Build basic CLI functionality tests using opencode framework
+- **Goal:** Build basic CLI command tests using examples and click modules
 - **Key files:**
   - `tests/opencode/unit/test_basic_commands.py`
   - `tests/opencode/fixtures/sample_commands.py`
-  - `tests/opencode/opencode_client.py`
-- **Additional info:** Focus on fundamental Click CLI features: simple commands, options, arguments, and help system
+  - `examples/aliases/aliases.py`
+  - `examples/naval/naval.py`
+- **Additional info:** Focus on fundamental CLI operations that can be tested by opencode
 
 ## Sub-tasks
-1. **Create sample CLI commands foundation:**
-   - Create `tests/opencode/fixtures/sample_commands.py` with basic Click command examples
-   - Implement simple greeting command with string argument
-   - Add calculator command with numeric operations
-   - Include file processing command with path argument
-   - Add command with multiple options and flags
-
-2. **Implement CLI runner utilities:**
-   - Create `tests/opencode/helpers/cli_runner.py` with Click testing utilities
-   - Add command execution wrapper with output capture
-   - Implement error handling and timeout management
-   - Add assertion helpers for CLI output validation
-   - Include utilities for testing command exit codes
-
-3. **Build opencode client integration:**
-   - Complete `tests/opencode/opencode_client.py` with glm-4.6 API integration
-   - Implement test scenario generation based on command definitions
-   - Add response parsing and validation logic
-   - Include error handling for API failures
-   - Add logging and debugging capabilities
-
-4. **Implement basic command execution tests:**
-   - Create `tests/opencode/unit/test_basic_commands.py` with test infrastructure
-   - Test simple command execution with valid arguments
-   - Test command help functionality and output validation
-   - Test error handling for invalid arguments and missing parameters
-   - Test command exit codes and standard error output
-
-5. **Test options and arguments handling:**
-   - Implement tests for string, integer, boolean, and flag options
-   - Test required vs optional arguments with various combinations
-   - Test default values and parameter validation
-   - Test multiple value options and choice constraints
-   - Test option parsing edge cases and error messages
-
-6. **Add comprehensive assertion helpers:**
-   - Create `tests/opencode/helpers/assertions.py` with custom assertions
-   - Add output format validation helpers
-   - Include regex-based content matching
-   - Add performance and timeout assertions
-   - Implement CLI-specific error message validation
-
-7. **Create test configuration and fixtures:**
-   - Update `tests/opencode/conftest.py` with shared fixtures
-   - Add pytest configuration for opencode tests
-   - Create test data files for file processing tests
-   - Set up environment variables and test isolation
-   - Add cleanup utilities for test artifacts
+1. **Create test fixtures and sample commands:**
+   - Implement `tests/opencode/fixtures/sample_commands.py` with basic click commands
+   - Create test data in `tests/opencode/fixtures/test_data.py`
+   - Set up helper utilities in `tests/opencode/helpers/`
+2. **Implement basic command tests:**
+   - Create `tests/opencode/unit/test_basic_commands.py` for simple command execution
+   - Test command invocation with various arguments
+   - Test help text and command discovery
+3. **Test argument and option handling:**
+   - Create `tests/opencode/unit/test_arguments.py` for argument parsing tests
+   - Test required vs optional arguments
+   - Test argument types and validation
+4. **Test option functionality:**
+   - Create `tests/opencode/unit/test_options.py` for option handling tests
+   - Test flag options, value options, and default values
+   - Test option validation and error cases
+5. **Implement CLI integration tests:**
+   - Test actual CLI examples from `examples/` directory
+   - Test command-line interface execution patterns
+   - Verify output formatting and error handling
 
 ## Workflow
-1. Execute sub-tasks in order.
-2. Verify: run `lint`, `typecheck`, `test` (scope as needed). Fix failures.
+1. Execute sub-tasks.
+2. Verify: run `uv run --locked pytest -q tests/opencode/`, `uv run --locked tox run -e typing`. Fix failures.
 3. Fix/record:
    - Add to `log.md` what/why (non-obvious decisions).
    - Update `context.md`: increment `Current Step`, set `Next Action`.
    - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "feat(tests): implement core CLI functionality tests [protocol-0001/03]"`. Push.
+4. Commit: `git add .` then `git commit -m "feat(tests): implement core CLI command tests [protocol-0001/03]"`. Push.
 5. Report to user using the step report format above.

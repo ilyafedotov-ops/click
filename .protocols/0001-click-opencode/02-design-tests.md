@@ -1,56 +1,59 @@
 # Step 2: Design test framework
 
 ## Briefing
-- **Goal:** Create opencode integration test structure for CLI testing
+- **Goal:** Design opencode integration structure and test patterns for CLI testing
 - **Key files:**
-  - `tests/opencode/` (new directory)
   - `tests/conftest.py`
-  - `pyproject.toml`
-- **Additional info:** Design a test framework that integrates opencode with glm-4.6 for intelligent CLI testing
+  - `tests/test_testing.py`
+  - `src/click/testing.py`
+  - `examples/` (various CLI examples)
+- **Additional info:** Design tests that can be executed by opencode glm-4.6 model
 
 ## Sub-tasks
-1. **Create opencode test directory structure:**
-   - Create `tests/opencode/` directory with proper Python package structure
-   - Set up `tests/opencode/__init__.py` with package metadata and imports
-   - Create subdirectories: `fixtures/`, `helpers/`, `unit/`, `integration/`
-   - Add `__init__.py` files to each subdirectory for proper Python package structure
-   - Create `.gitkeep` files in empty directories to ensure they're tracked
-
-2. **Design opencode client integration:**
-   - Create `tests/opencode/opencode_client.py` with base OpencodeClient class
-   - Implement glm-4.6 API connection with proper authentication and error handling
-   - Add CLI command execution wrapper with timeout and output capture
-   - Implement response parsing utilities for structured CLI output analysis
-   - Add retry logic and rate limiting for API calls
-   - Create mock client for testing without API dependencies
-
-3. **Create test fixtures and helpers:**
-   - Design `tests/opencode/fixtures/sample_commands.py` with comprehensive test CLI commands
-   - Create `tests/opencode/fixtures/test_data.py` with sample inputs and expected outputs
-   - Implement `tests/opencode/helpers/assertions.py` with CLI-specific assertion helpers
-   - Add `tests/opencode/helpers/cli_runner.py` for consistent CLI execution environment
-   - Create `tests/opencode/helpers/test_context.py` for test context management
-   - Add `tests/opencode/helpers/data_generators.py` for dynamic test data creation
-
-4. **Set up test configuration:**
-   - Update `tests/conftest.py` with opencode-specific fixtures and configuration
-   - Create `tests/opencode/conftest.py` for opencode-specific pytest configuration
-   - Configure pytest settings in `tests/opencode/pytest.ini` for opencode test discovery
-   - Add environment configuration template in `tests/opencode/.env.test` for glm-4.6 API access
-   - Update `pyproject.toml` with opencode test dependencies and configuration
-   - Create test markers and categorization for different test types
-
-5. **Create test plan document:**
-   - Document the complete test framework architecture in design document
-   - Define test data management strategy with fixtures and factories
-   - Specify test execution patterns and CI/CD integration approach
-   - Document error handling and debugging strategies for opencode tests
-   - Create test coverage requirements and quality gates
-   - Save comprehensive design in `.protocols/0001-click-opencode/test_framework_design.md`
+1. **Examine existing test infrastructure:**
+   - Read `tests/conftest.py` for test fixtures and configuration
+   - Study `tests/test_testing.py` for click's testing utilities
+   - Review `src/click/testing.py` for ClickRunner and test helpers
+   - Analyze existing test patterns in `tests/test_basic.py` and `tests/test_commands.py`
+   - Examine CLI examples in `examples/` directory for test scenarios
+2. **Design opencode test structure:**
+   - Create `tests/opencode/` directory structure with subdirectories:
+     - `tests/opencode/fixtures/` for test data and sample commands
+     - `tests/opencode/helpers/` for opencode-specific utilities
+     - `tests/opencode/unit/` for individual command tests
+   - Design test fixtures for CLI command execution using ClickRunner
+   - Plan test data organization for sample commands and expected outputs
+   - Create configuration for opencode glm-4.6 integration
+3. **Define test categories and patterns:**
+   - Basic command execution tests (simple commands, help output)
+   - Argument parsing and validation tests (required/optional args, types)
+   - Option handling tests (flags, parameters, defaults)
+   - Multi-command CLI interaction tests (groups, subcommands, chaining)
+   - Error handling and edge case tests (invalid input, missing args)
+   - Terminal UI interaction tests (prompts, confirmations, progress bars)
+4. **Create test framework foundation:**
+   - Set up `tests/opencode/conftest.py` with opencode-specific fixtures:
+     - CLI runner fixture using ClickRunner
+     - Sample command fixtures from examples/
+     - Test data fixtures for various scenarios
+   - Create helper utilities in `tests/opencode/helpers/`:
+     - Command execution helpers
+     - Output assertion helpers
+     - Error scenario helpers
+   - Design test data structure in `tests/opencode/fixtures/`:
+     - Sample command definitions
+     - Expected output templates
+     - Test scenario configurations
+5. **Document test design decisions:**
+   - Record architectural choices for test framework in `tests/opencode/README.md`
+   - Document integration points with opencode glm-4.6 model
+   - Specify test execution patterns and reporting format
+   - Define test naming conventions and organization principles
+   - Create guidelines for writing opencode-compatible tests
 
 ## Workflow
-1. Execute sub-tasks in order, ensuring each component builds upon previous work.
-2. Verify: run `lint`, `typecheck`, `test` (scope as needed). Fix failures.
+1. Execute sub-tasks.
+2. Verify: run `uv run --locked pytest -q tests/`, `uv run --locked tox run -e style`. Fix failures.
 3. Fix/record:
    - Add to `log.md` what/why (non-obvious decisions).
    - Update `context.md`: increment `Current Step`, set `Next Action`.

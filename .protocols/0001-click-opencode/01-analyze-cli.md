@@ -1,62 +1,48 @@
 # Step 1: Analyze CLI architecture
 
 ## Briefing
-- **Goal:** Document Click's CLI structure and identify comprehensive test scenarios
+- **Goal:** Understand click's CLI structure and existing patterns
 - **Key files:**
   - `src/click/core.py`
   - `src/click/decorators.py`
   - `src/click/parser.py`
-  - `examples/`
+  - `examples/complex/complex/cli.py`
   - `tests/test_basic.py`
-- **Additional info:** Focus on understanding Click's command structure, option handling, and user interaction patterns
+- **Additional info:** Focus on command registration, argument parsing, and CLI entry points
 
 ## Sub-tasks
-1. **Examine core Click architecture:**
-   - Read `src/click/core.py` to understand Command, Group, and Context classes
-   - Analyze `src/click/decorators.py` for command and option decorators
-   - Review `src/click/parser.py` for argument parsing logic
-   - Document class hierarchies and key methods
-   - Identify entry points and data flow
-
-2. **Study existing examples:**
-   - Review all examples in `examples/` directory
-   - Document different CLI patterns (simple commands, groups, complex hierarchies)
-   - Identify common use cases and edge cases
-   - Extract reusable patterns for test scenarios
-   - Note any advanced features demonstrated
-
-3. **Analyze current test coverage:**
-   - Review `tests/test_basic.py` and related test files
-   - Identify gaps in CLI testing from user perspective
-   - Document what aspects need E2E testing
-   - Map existing tests to CLI features
-   - Highlight missing integration scenarios
-
-4. **Create CLI test matrix:**
-   - Document all CLI scenarios to test (basic commands, options, arguments, groups, etc.)
-   - Prioritize scenarios based on common usage patterns
-   - Define test categories (smoke, regression, edge cases)
-   - Create test data requirements matrix
-   - Save analysis in `.protocols/0001-click-opencode/cli_architecture_analysis.md`
-
-5. **Document user interaction patterns:**
-   - Identify common CLI workflows (help, validation, error handling)
-   - Document input/output patterns
-   - Map user expectations to CLI behaviors
-   - Note platform-specific considerations
-
-6. **Validate analysis completeness:**
-   - Cross-reference with Click documentation
-   - Ensure all major features are covered
-   - Verify test matrix aligns with project goals
-   - Review analysis for gaps or inconsistencies
+1. **Examine core CLI components:**
+   - Read `src/click/core.py` to understand Command and Group classes
+   - Read `src/click/decorators.py` to understand command decorators
+   - Read `src/click/parser.py` to understand argument parsing
+   - Read `src/click/types.py` to understand parameter types and validation
+   - Read `src/click/formatting.py` to understand output formatting mechanisms
+2. **Analyze existing CLI examples:**
+   - Study `examples/complex/complex/cli.py` for multi-command CLI patterns
+   - Review `examples/aliases/aliases.py` for simple command structure
+   - Examine `examples/validation/validation.py` for input validation patterns
+   - Analyze `examples/imagepipe/imagepipe.py` for file processing CLI patterns
+   - Review `examples/termui/termui.py` for terminal UI interaction patterns
+3. **Review current test patterns:**
+   - Analyze `tests/test_basic.py` for existing CLI testing approaches
+   - Check `tests/test_commands.py` for command testing patterns
+   - Review `tests/test_arguments.py` for argument handling tests
+   - Examine `tests/test_options.py` for option testing patterns
+   - Study `tests/test_parser.py` for parser testing approaches
+4. **Document CLI architecture findings:**
+   - Identify key CLI components and their relationships
+   - Note existing testing patterns and gaps
+   - Document entry points and command registration mechanisms
+   - Map argument parsing flow and validation pipeline
+   - Identify error handling and exception patterns
+   - Document terminal UI and formatting capabilities
 
 ## Workflow
-1. Execute sub-tasks in order.
-2. Verify: run `lint`, `typecheck`, `test` (scope as needed). Fix failures.
+1. Execute sub-tasks.
+2. Verify: run `uv run --locked pytest -q tests/test_basic.py`, `uv run --locked tox run -e typing`. Fix failures.
 3. Fix/record:
    - Add to `log.md` what/why (non-obvious decisions).
    - Update `context.md`: increment `Current Step`, set `Next Action`.
    - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "feat(analysis): document CLI architecture and test scenarios [protocol-0001/01]"`. Push.
+4. Commit: `git add .` then `git commit -m "feat(analysis): document CLI architecture and patterns [protocol-0001/01]"`. Push.
 5. Report to user using the step report format above.

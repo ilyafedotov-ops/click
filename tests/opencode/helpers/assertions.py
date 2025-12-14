@@ -1,45 +1,41 @@
-"""Assertion utilities for opencode click testing."""
+"""Assertion utilities for opencode CLI testing."""
 
 import re
-from typing import Optional, List, Union
-import subprocess
+from typing import List, Dict, Any, Optional, Pattern
+from .cli_client import CLIResult
 
 
 class CLIAssertions:
     """Collection of assertion helpers for CLI testing."""
 
     @staticmethod
-    def assert_exit_code(
-        result: subprocess.CompletedProcess, expected_code: int = 0
-    ) -> None:
+    def assert_exit_code(result: CLIResult, expected_code: int) -> None:
         """Assert command exited with expected code."""
-        if result.returncode != expected_code:
+        if result.exit_code != expected_code:
             raise AssertionError(
-                f"Expected exit code {expected_code}, got {result.returncode}\n"
-                f"stdout: {result.stdout}\n"
-                f"stderr: {result.stderr}"
+                f"Expected exit code {expected_code}, got {result.exit_code}. "
+                f"Command: {' '.join(result.command)}. "
+                f"Stderr: {result.stderr}"
             )
 
     @staticmethod
-    def assert_success(result: subprocess.CompletedProcess) -> None:
+    def assert_success(result: CLIResult) -> None:
         """Assert command succeeded (exit code 0)."""
         CLIAssertions.assert_exit_code(result, 0)
 
     @staticmethod
-    def assert_failure(
-        result: subprocess.CompletedProcess, expected_code: Optional[int] = None
-    ) -> None:
+    def assert_failure(result: CLIResult, expected_code: Optional[int] = None) -> None:
         """Assert command failed."""
-        if result.returncode == 0:
+        if result.exit_code == 0:
             raise AssertionError("Command succeeded but was expected to fail")
-        if expected_code is not None and result.returncode != expected_code:
+        if expected_code is not None and result.exit_code != expected_code:
             raise AssertionError(
-                f"Expected exit code {expected_code}, got {result.returncode}"
+                f"Expected exit code {expected_code}, got {result.exit_code}"
             )
 
     @staticmethod
     def assert_output_contains(
-        result: subprocess.CompletedProcess, text: str, case_sensitive: bool = True
+        result: CLIResult, text: str, case_sensitive: bool = True
     ) -> None:
         """Assert stdout contains expected text."""
         output = result.stdout
@@ -51,7 +47,7 @@ class CLIAssertions:
 
     @staticmethod
     def assert_output_not_contains(
-        result: subprocess.CompletedProcess, text: str, case_sensitive: bool = True
+        result: CLIResult, text: str, case_sensitive: bool = True
     ) -> None:
         """Assert stdout does not contain text."""
         output = result.stdout
@@ -63,7 +59,7 @@ class CLIAssertions:
 
     @staticmethod
     def assert_error_contains(
-        result: subprocess.CompletedProcess, text: str, case_sensitive: bool = True
+        result: CLIResult, text: str, case_sensitive: bool = True
     ) -> None:
         """Assert stderr contains expected text."""
         error_output = result.stderr
@@ -74,9 +70,7 @@ class CLIAssertions:
             raise AssertionError(f"Expected '{text}' in stderr, got:\n{error_output}")
 
     @staticmethod
-    def assert_output_matches(
-        result: subprocess.CompletedProcess, pattern: str, flags: int = 0
-    ) -> None:
+    def assert_output_matches(result: CLIResult, pattern: str, flags: int = 0) -> None:
         """Assert stdout matches regex pattern."""
         if not re.search(pattern, result.stdout, flags):
             raise AssertionError(
@@ -85,7 +79,7 @@ class CLIAssertions:
 
     @staticmethod
     def assert_output_equals(
-        result: subprocess.CompletedProcess, expected: str, strip: bool = True
+        result: CLIResult, expected: str, strip: bool = True
     ) -> None:
         """Assert stdout exactly equals expected text."""
         actual = result.stdout
@@ -97,9 +91,7 @@ class CLIAssertions:
             raise AssertionError(f"Expected output:\n{expected_text}\n\nGot:\n{actual}")
 
     @staticmethod
-    def assert_line_count(
-        result: subprocess.CompletedProcess, expected_count: int
-    ) -> None:
+    def assert_line_count(result: CLIResult, expected_count: int) -> None:
         """Assert stdout has expected number of lines."""
         lines = result.stdout.strip().split("\n") if result.stdout.strip() else []
         if len(lines) != expected_count:
@@ -108,9 +100,7 @@ class CLIAssertions:
             )
 
     @staticmethod
-    def assert_json_output(
-        result: subprocess.CompletedProcess, expected_structure: dict
-    ) -> None:
+    def assert_json_output(result: CLIResult, expected_structure: dict) -> None:
         """Assert stdout is valid JSON matching expected structure."""
         import json
 
@@ -146,9 +136,7 @@ class CLIAssertions:
         return True
 
     @staticmethod
-    def assert_help_text_contains(
-        result: subprocess.CompletedProcess, sections: List[str]
-    ) -> None:
+    def assert_help_text_contains(result: CLIResult, sections: List[str]) -> None:
         """Assert help text contains expected sections."""
         help_text = result.stdout
         for section in sections:
@@ -158,9 +146,7 @@ class CLIAssertions:
                 )
 
     @staticmethod
-    def assert_option_in_help(
-        result: subprocess.CompletedProcess, option_name: str
-    ) -> None:
+    def assert_option_in_help(result: CLIResult, option_name: str) -> None:
         """Assert an option is documented in help text."""
         help_text = result.stdout
         option_pattern = rf"(?:^|\s){re.escape(option_name)}\b"
@@ -170,9 +156,7 @@ class CLIAssertions:
             )
 
     @staticmethod
-    def assert_command_in_help(
-        result: subprocess.CompletedProcess, command_name: str
-    ) -> None:
+    def assert_command_in_help(result: CLIResult, command_name: str) -> None:
         """Assert a command is listed in help text."""
         help_text = result.stdout
         command_pattern = rf"(?:^|\s){re.escape(command_name)}\b"

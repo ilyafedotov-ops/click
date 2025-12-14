@@ -1,55 +1,53 @@
-# Step 5: Integration with opencode
+# Step 5: Opencode integration
 
 ## Briefing
-- **Goal:** Connect tests with opencode glm-4.6 for end-to-end CLI testing
+- **Goal:** Integrate with glm-4.6 model for intelligent testing and test generation
 - **Key files:**
-  - `tests/opencode/test_opencode_integration.py`
   - `tests/opencode/opencode_client.py`
-  - `tests/opencode/test_scenarios.py`
-- **Additional info:** Implement actual opencode glm-4.6 interaction patterns
+  - `tests/opencode/test_intelligent.py`
+  - `tests/opencode/helpers/test_generator.py`
+- **Additional info:** Leverage glm-4.6 for intelligent test case generation and validation
 
 ## Sub-tasks
-1. **Create opencode client infrastructure:**
-   - Set up opencode API client configuration for glm-4.6
-   - Implement authentication and session management utilities
-   - Create request/response handling with proper error handling
-   - Add retry logic and timeout management
-   - Create client factory for test isolation
+1. **Complete glm-4.6 integration:**
+   - Finalize `tests/opencode/opencode_client.py` with full API integration
+   - Add retry logic and error handling for API calls
+   - Implement response caching and rate limiting
+   - Create API client configuration management
+   - Add authentication and security measures
+   - Implement connection pooling and timeout handling
 
-2. **Build integration test framework:**
-   - Create base test classes for opencode integration
-   - Implement opencode command execution test utilities
-   - Build response parsing and validation helpers
-   - Create mock opencode server for isolated testing
-   - Add test fixtures for common opencode interactions
+2. **Implement intelligent test generation:**
+   - Create `tests/opencode/helpers/test_generator.py`
+   - Use glm-4.6 to generate test scenarios based on CLI analysis
+   - Implement dynamic test case creation and validation
+   - Add test scenario classification and prioritization
+   - Create test data generation utilities
+   - Implement test template system for reusable patterns
 
-3. **Implement core integration tests:**
-   - Test basic opencode client initialization and connection
-   - Test simple command execution through opencode
-   - Test response parsing and data extraction
-   - Test error handling and recovery scenarios
-   - Test session management and cleanup
+3. **Create intelligent validation tests:**
+   - Create `tests/opencode/test_intelligent.py`
+   - Test glm-4.6's ability to understand CLI behavior
+   - Validate generated test cases for correctness and coverage
+   - Add regression testing for generated tests
+   - Implement test result validation and assertion generation
+   - Create test execution monitoring and logging
 
-4. **Create end-to-end CLI scenarios:**
-   - Test complete click command workflows with opencode assistance
-   - Test multi-step command sequences with state management
-   - Test opencode-assisted command generation and validation
-   - Test opencode debugging and troubleshooting workflows
-   - Test complex CLI interactions with nested commands
+4. **Add test reporting and analytics:**
+   - Implement test result analysis and reporting
+   - Add coverage analysis for CLI features
+   - Create test execution metrics and performance tracking
+   - Build test execution dashboard and visualization
+   - Add test failure analysis and root cause identification
+   - Implement test trend analysis and historical reporting
 
-5. **Add monitoring and reporting infrastructure:**
-   - Create test execution metrics collection system
-   - Implement structured logging with different verbosity levels
-   - Build comprehensive test result reporting with summaries
-   - Add performance monitoring and benchmarking
-   - Create test coverage analysis for opencode integration
-
-6. **Create configuration and utilities:**
-   - Add opencode configuration management for test environments
-   - Create test data generators for various CLI scenarios
-   - Build helper utilities for test setup and teardown
-   - Add environment-specific configuration handling
-   - Create test isolation and cleanup utilities
+5. **Create integration documentation:**
+   - Document the opencode integration architecture
+   - Create usage examples and best practices
+   - Save in `.protocols/0001-click-opencode/integration_guide.md`
+   - Add API reference documentation
+   - Create troubleshooting guide and FAQ
+   - Document configuration options and environment setup
 
 ## Workflow
 1. Execute sub-tasks.
@@ -58,5 +56,5 @@
    - Add to `log.md` what/why (non-obvious decisions).
    - Update `context.md`: increment `Current Step`, set `Next Action`.
    - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "feat(integration): connect opencode glm-4.6 tests [protocol-0001/05]"`. Push.
+4. Commit: `git add .` then `git commit -m "feat(integration): complete glm-4.6 opencode integration [protocol-0001/05]"`. Push.
 5. Report to user using the step report format above.

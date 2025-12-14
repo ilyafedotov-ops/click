@@ -1,11 +1,11 @@
 # 0001 — click-opencode
 
 ## ADR-style Summary:
-- **Context**: Need to create an end-to-end CLI test for the click repository using opencode with glm-4.6 model
-- **Problem Statement**: No comprehensive E2E testing exists for click CLI functionality with opencode integration
-- **Decision**: Create a structured protocol to implement comprehensive CLI testing using opencode glm-4.6
-- **Alternatives**: Manual testing, partial automation, different testing frameworks
-- **Consequences**: Improved test coverage, automated validation of CLI functionality, integration with opencode ecosystem
+- **Context**: Need to create comprehensive end-to-end CLI tests for the Click library using opencode with glm-4.6 model
+- **Problem Statement**: Current test coverage may not adequately test CLI functionality from a user perspective; need automated CLI testing that mimics real user interactions
+- **Decision**: Implement E2E CLI tests using opencode framework with glm-4.6 model to test Click's command-line interface comprehensively
+- **Alternatives**: Manual CLI testing, unit tests only, other automation frameworks
+- **Consequences**: Increased test coverage, better CLI reliability, additional test maintenance overhead
 
 ---
 
@@ -13,11 +13,11 @@
 This section is a **contract**; do not change during implementation.
 
 - **[Step 0: Prepare and lock plan](./00-setup.md)**: Create and commit protocol artifacts.
-- **[Step 1: Analyze click CLI structure](./01-analyze-cli.md)**: Examine existing CLI commands and structure.
-- **[Step 2: Design test framework](./02-design-tests.md)**: Create test architecture for opencode integration.
-- **[Step 3: Implement core tests](./03-implement-core.md)**: Build fundamental CLI test cases.
-- **[Step 4: Add advanced scenarios](./04-advanced-scenarios.md)**: Implement complex CLI interaction tests.
-- **[Step 5: Integration with opencode](./05-opencode-integration.md)**: Connect tests with opencode glm-4.6.
+- **[Step 1: Analyze CLI architecture](./01-analyze-cli.md)**: Document Click's CLI structure and identify test scenarios.
+- **[Step 2: Design test framework](./02-design-tests.md)**: Create opencode integration test structure.
+- **[Step 3: Implement core tests](./03-implement-core.md)**: Build basic CLI functionality tests.
+- **[Step 4: Advanced scenarios](./04-advanced-scenarios.md)**: Add complex CLI interaction tests.
+- **[Step 5: Opencode integration](./05-opencode-integration.md)**: Integrate with glm-4.6 model for intelligent testing.
 - **[Step 6: Finalize](./06-finalize.md)**:
   * Mark PR Ready
   * Close out work
@@ -35,7 +35,7 @@ All work happens in the worktree (CWD).
 
 ### A. Before a new step (restore context)
 1. Read `Current Step` from `context.md`.
-2. Open the step file (e.g., `01-step-name.md`).
+2. Open the step file (e.g., `01-analyze-cli.md`).
 3. Ensure previous changes are committed.
 
 ### B. During the step (execute)
@@ -77,6 +77,6 @@ All work happens in the worktree (CWD).
 
 ## Reference Materials
 - Click documentation: docs/
-- Test examples: tests/
-- Source code: src/click/
-- Opencode integration patterns
+- Existing tests: tests/
+- Examples: examples/
+- pytest configuration: pyproject.toml

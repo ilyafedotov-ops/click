@@ -1,10 +1,10 @@
-"""Pytest configuration for opencode click tests."""
+"""Pytest configuration for opencode integration tests."""
 
 import pytest
 import tempfile
 import os
 from pathlib import Path
-from typing import Generator, Any
+from typing import Generator, Dict, Any
 
 from .helpers.cli_client import OpencodeTestClient
 
@@ -44,42 +44,53 @@ if __name__ == '__main__':
 
 
 @pytest.fixture
-def mock_env_vars() -> dict[str, str]:
+def mock_env_vars() -> Dict[str, str]:
     """Mock environment variables for testing."""
     return {
-        "CLICK_TESTING": "true",
+        "CLICK_TEST_MODE": "1",
         "PYTHONPATH": str(Path(__file__).parent.parent.parent / "src"),
+        "OPENCODE_MODEL": "glm-4.6",
     }
 
 
 @pytest.fixture(autouse=True)
-def setup_test_env(
-    monkeypatch: pytest.MonkeyPatch, mock_env_vars: dict[str, str]
-) -> None:
+def setup_test_env(monkeypatch, mock_env_vars):
     """Set up test environment variables."""
     for key, value in mock_env_vars.items():
         monkeypatch.setenv(key, value)
 
 
 @pytest.fixture
-def capture_output() -> Generator[tuple[list[str], list[str]], None, None]:
-    """Capture stdout and stderr during test execution."""
-    import sys
-    from io import StringIO
+def sample_group_file(temp_dir) -> Path:
+    """Create a sample Click group file for testing."""
+    content = '''
+import click
 
-    stdout_capture = StringIO()
-    stderr_capture = StringIO()
+@click.group()
+def cli():
+    """A simple CLI tool."""
+    pass
 
-    old_stdout = sys.stdout
-    old_stderr = sys.stderr
+@cli.command()
+@click.option("--count", default=1, help="Number of greetings.")
+@click.option("--name", prompt="Your name", help="The person to greet.")
+def hello(count, name):
+    """Simple program that greets NAME."""
+    for _ in range(count):
+        click.echo(f"Hello {name}!")
 
-    try:
-        sys.stdout = stdout_capture
-        sys.stderr = stderr_capture
-        yield ([], [])
-    finally:
-        sys.stdout = old_stdout
-        sys.stderr = old_stderr
+@cli.command()
+@click.argument("filename")
+def process(filename):
+    """Process a file."""
+    click.echo(f"Processing {filename}")
+
+if __name__ == "__main__":
+    cli()
+'''
+    file_path = temp_dir / "sample_group.py"
+    file_path.write_text(content.strip())
+    return file_path
 
 
 @pytest.fixture
@@ -90,7 +101,13 @@ def cli_runner():
     return CliRunner()
 
 
-@pytest.fixture(scope="session")
-def test_data_dir() -> Path:
-    """Get the test data directory."""
-    return Path(__file__).parent / "fixtures"
+# Pytest markers
+pytest_plugins = []
+
+
+def pytest_configure(config):
+    """Configure pytest with custom markers."""
+    config.addinivalue_line("markers", "integration: mark test as integration test")
+    config.addinivalue_line("markers", "unit: mark test as unit test")
+    config.addinivalue_line("markers", "slow: mark test as slow running")
+    config.addinivalue_line("markers", "opencode: mark test as opencode-specific")

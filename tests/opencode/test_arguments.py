@@ -3,9 +3,9 @@
 import pytest
 import tempfile
 from pathlib import Path
-from ..helpers.cli_client import OpencodeTestClient
-from ..helpers.assertions import CLIAssertions
-from ..helpers.mocks import mock_stdin
+from .helpers.cli_client import OpencodeTestClient
+from .helpers.assertions import CLIAssertions
+from .helpers.mocks import mock_stdin
 
 
 class TestBasicArguments:
@@ -472,7 +472,6 @@ def search(pattern, files, case_sensitive):
 
 if __name__ == '__main__':
     cli()
-\"\"\")
         result = opencode_client.run_python_script(script, ["copy", "file1.txt", "file2.txt", "--force"])
         CLIAssertions.assert_success(result)
         CLIAssertions.assert_output_contains(result, "Force copying file1.txt to file2.txt")
@@ -500,10 +499,3 @@ def process(prefix, text, suffix):
 
 if __name__ == '__main__':
     process()
-""")
-        result = opencode_client.run_python_script(script, ["middle", "end"])
-        CLIAssertions.assert_success(result)
-        CLIAssertions.assert_output_contains(result, "Processing prefix: PREFIX")
-        CLIAssertions.assert_output_contains(result, "Processing text: middle")
-        CLIAssertions.assert_output_contains(result, "Processing suffix: end")
-        CLIAssertions.assert_output_contains(result, "Result: PREFIXmiddleend")

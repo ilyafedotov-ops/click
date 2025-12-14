@@ -1,107 +1,59 @@
 # Step 2: Design test framework
 
 ## Briefing
-- **Goal:** Create a comprehensive test architecture for opencode glm-4.6 integration
+- **Goal:** Create opencode integration test structure for CLI testing
 - **Key files:**
-  - `tests/` (existing test structure)
-  - New test framework files to be created
-- **Additional info:** Design tests that work with opencode's CLI interaction patterns
+  - `tests/opencode/` (new directory)
+  - `tests/conftest.py`
+  - `pyproject.toml`
+- **Additional info:** Design a test framework that integrates opencode with glm-4.6 for intelligent CLI testing
 
 ## Sub-tasks
+1. **Create opencode test directory structure:**
+   - Create `tests/opencode/` directory with proper Python package structure
+   - Set up `tests/opencode/__init__.py` with package metadata and imports
+   - Create subdirectories: `fixtures/`, `helpers/`, `unit/`, `integration/`
+   - Add `__init__.py` files to each subdirectory for proper Python package structure
+   - Create `.gitkeep` files in empty directories to ensure they're tracked
 
-### 1. Design test architecture
-1.1. Create directory structure `tests/opencode/` with subdirectories:
-   - `tests/opencode/integration/` - End-to-end CLI tests
-   - `tests/opencode/unit/` - Individual component tests
-   - `tests/opencode/fixtures/` - Test data and mock files
-   - `tests/opencode/helpers/` - Shared test utilities
+2. **Design opencode client integration:**
+   - Create `tests/opencode/opencode_client.py` with base OpencodeClient class
+   - Implement glm-4.6 API connection with proper authentication and error handling
+   - Add CLI command execution wrapper with timeout and output capture
+   - Implement response parsing utilities for structured CLI output analysis
+   - Add retry logic and rate limiting for API calls
+   - Create mock client for testing without API dependencies
 
-1.2. Define test categories and naming conventions:
-   - Basic command tests: `test_basic_commands.py`
-   - Option handling tests: `test_options.py`
-   - Group/subcommand tests: `test_groups.py`
-   - Error handling tests: `test_errors.py`
-   - Integration tests: `test_integration.py`
+3. **Create test fixtures and helpers:**
+   - Design `tests/opencode/fixtures/sample_commands.py` with comprehensive test CLI commands
+   - Create `tests/opencode/fixtures/test_data.py` with sample inputs and expected outputs
+   - Implement `tests/opencode/helpers/assertions.py` with CLI-specific assertion helpers
+   - Add `tests/opencode/helpers/cli_runner.py` for consistent CLI execution environment
+   - Create `tests/opencode/helpers/test_context.py` for test context management
+   - Add `tests/opencode/helpers/data_generators.py` for dynamic test data creation
 
-1.3. Design opencode integration layer:
-   - Create `tests/opencode/conftest.py` for pytest fixtures
-   - Define `OpencodeTestClient` class for CLI interactions
-   - Design response validation patterns
+4. **Set up test configuration:**
+   - Update `tests/conftest.py` with opencode-specific fixtures and configuration
+   - Create `tests/opencode/conftest.py` for opencode-specific pytest configuration
+   - Configure pytest settings in `tests/opencode/pytest.ini` for opencode test discovery
+   - Add environment configuration template in `tests/opencode/.env.test` for glm-4.6 API access
+   - Update `pyproject.toml` with opencode test dependencies and configuration
+   - Create test markers and categorization for different test types
 
-### 2. Create test utilities
-2.1. Build CLI interaction helpers:
-   - Create `tests/opencode/helpers/cli_client.py` with `OpencodeTestClient`
-   - Implement command execution methods with timeout handling
-   - Add output parsing and validation utilities
-
-2.2. Create assertion utilities:
-   - Create `tests/opencode/helpers/assertions.py`
-   - Implement CLI output comparison functions
-   - Add exit code validation helpers
-   - Create error message assertion utilities
-
-2.3. Design mock/stub patterns:
-   - Create `tests/opencode/helpers/mocks.py`
-   - Implement file system mocks for CLI operations
-   - Design environment variable mocking utilities
-   - Create stdin/stdout capture mechanisms
-
-### 3. Plan test scenarios
-3.1. Basic command execution tests:
-   - Test simple command invocation
-   - Verify help text display
-   - Test version command functionality
-   - Validate command discovery
-
-3.2. Option parsing and validation tests:
-   - Test required vs optional options
-   - Validate option type conversion
-   - Test default value handling
-   - Verify option conflict detection
-
-3.3. Group and subcommand tests:
-   - Test command group creation
-   - Verify subcommand routing
-   - Test nested group structures
-   - Validate help text for groups
-
-3.4. Error handling and edge cases:
-   - Test invalid command invocation
-   - Verify error message formatting
-   - Test exception propagation
-   - Validate graceful failure modes
-
-3.5. Integration scenarios with opencode glm-4.6:
-   - Test opencode tool integration
-   - Verify model interaction patterns
-   - Test async command handling
-   - Validate complex workflow scenarios
-
-### 4. Create test configuration
-4.1. Set up pytest configuration:
-   - Create `tests/opencode/pytest.ini` or update root configuration
-   - Define test markers for different test categories
-   - Configure test discovery patterns
-   - Set up coverage reporting
-
-4.2. Define test data fixtures:
-   - Create `tests/opencode/fixtures/sample_commands.py`
-   - Add mock CLI command definitions
-   - Create test input/output data files
-   - Set up environment configuration fixtures
-
-4.3. Configure test environment:
-   - Create `tests/opencode/.env.test` for test-specific variables
-   - Define opencode model configuration
-   - Set up temporary directory management
-   - Configure logging for test execution
+5. **Create test plan document:**
+   - Document the complete test framework architecture in design document
+   - Define test data management strategy with fixtures and factories
+   - Specify test execution patterns and CI/CD integration approach
+   - Document error handling and debugging strategies for opencode tests
+   - Create test coverage requirements and quality gates
+   - Save comprehensive design in `.protocols/0001-click-opencode/test_framework_design.md`
 
 ## Workflow
-1. Execute sub-tasks in order.
+1. Execute sub-tasks in order, ensuring each component builds upon previous work.
 2. Verify: run `lint`, `typecheck`, `test` (scope as needed). Fix failures.
 3. Fix/record:
    - Add to `log.md` what/why (non-obvious decisions).
    - Update `context.md`: increment `Current Step`, set `Next Action`.
    - Check `main` for stray files from our branch.
-4. Commit: `git add .` then `git commit -m "feat(design): create opencode test framework [protocol-0001/02]"`. Push.
+4. Commit: `git add .` then `git commit -m "feat(design): create opencode test framework structure [protocol-0001/02]"`. Push.
 5. Report to user using the step report format above.

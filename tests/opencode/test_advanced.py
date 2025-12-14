@@ -4,9 +4,9 @@ import pytest
 import tempfile
 import json
 from pathlib import Path
-from tests.opencode.helpers.cli_client import OpencodeTestClient
-from tests.opencode.helpers.assertions import CLIAssertions
-from tests.opencode.helpers.mocks import mock_stdin, FileSystemMock
+from ..helpers.cli_client import OpencodeTestClient
+from ..helpers.assertions import CLIAssertions
+from ..helpers.mocks import mock_stdin, FileSystemMock
 
 
 class TestAdvancedFeatures:

@@ -3,9 +3,9 @@
 import pytest
 import tempfile
 from pathlib import Path
-from tests.opencode.helpers.cli_client import OpencodeTestClient
-from tests.opencode.helpers.assertions import CLIAssertions
-from tests.opencode.helpers.mocks import mock_stdin
+from ..helpers.cli_client import OpencodeTestClient
+from ..helpers.assertions import CLIAssertions
+from ..helpers.mocks import mock_stdin
 
 
 class TestBasicArguments:
@@ -447,7 +447,7 @@ import click
 
 @click.group()
 def cli():
-    """Main command group."""
+    \"\"\"Main command group.\"\"\"
     pass
 
 @cli.command()
@@ -455,7 +455,7 @@ def cli():
 @click.argument('destination')
 @click.option('--force', is_flag=True)
 def copy(source, destination, force):
-    """Copy files from SOURCE to DESTINATION."""
+    \"\"\"Copy files from SOURCE to DESTINATION.\"\"\"
     if force:
         click.echo(f'Force copying {source} to {destination}')
     else:
@@ -466,13 +466,13 @@ def copy(source, destination, force):
 @click.argument('files', nargs=-1)
 @click.option('--case-sensitive', is_flag=True)
 def search(pattern, files, case_sensitive):
-    """Search for PATTERN in FILES."""
+    \"\"\"Search for PATTERN in FILES.\"\"\"
     mode = "case-sensitive" if case_sensitive else "case-insensitive"
     click.echo(f'Searching for "{pattern}" ({mode}) in {len(files)} files')
 
 if __name__ == '__main__':
     cli()
-""")
+\"\"\")
         result = opencode_client.run_python_script(script, ["copy", "file1.txt", "file2.txt", "--force"])
         CLIAssertions.assert_success(result)
         CLIAssertions.assert_output_contains(result, "Force copying file1.txt to file2.txt")

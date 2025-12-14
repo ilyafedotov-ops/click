@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from typing import Generator, Any
 
-from tests.opencode.helpers.cli_client import OpencodeTestClient
+from .helpers.cli_client import OpencodeTestClient
 
 
 @pytest.fixture

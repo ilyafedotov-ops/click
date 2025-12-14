@@ -3,9 +3,9 @@
 import pytest
 import tempfile
 from pathlib import Path
-from tests.opencode.helpers.cli_client import OpencodeTestClient
-from tests.opencode.helpers.assertions import CLIAssertions
-from tests.opencode.helpers.mocks import mock_stdin
+from ..helpers.cli_client import OpencodeTestClient
+from ..helpers.assertions import CLIAssertions
+from ..helpers.mocks import mock_stdin
 
 
 class TestBasicOptions:
